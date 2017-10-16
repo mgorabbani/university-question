@@ -8,12 +8,17 @@ import {
 import randomColor from 'randomcolor';
 
 
-let color= randomColor({hue: 'green', count: 18});
-
-
+let colors= ['#27CB7E','#351B9B','#E22892','#1CABDA']
+let color;
 
 export default Question = (props) => {
     const { exam, semester, year, subjectCode, url } = props.item
+    switch(exam) {
+        case 'Mid': color=colors[0]
+        case 'Final': color=colors[1]
+        case 'Quiz':  color=colors[2]
+        default  :  color=colors[3]
+    }
     console.log(props.in,'index')
     return (
         <TouchableWithoutFeedback onPress={() => props.navigation.navigate('View',{url})}>
@@ -25,7 +30,7 @@ export default Question = (props) => {
                     <Text style={{  }}>Year: {year}</Text>
                 </View>
                 <View style={{ padding: 10 }} >
-                    <View style={{backgroundColor:color[props.in],height:100,flex:1,alignItems:'center',justifyContent:'center'}} >
+                    <View style={{backgroundColor:color,height:100,flex:1,alignItems:'center',justifyContent:'center'}} >
                         <Text style={{color:'#fff',fontSize:18,fontWeight:'bold'}} >{exam}</Text>
                     </View>
                 </View>

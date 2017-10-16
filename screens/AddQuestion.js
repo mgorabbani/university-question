@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, View, Text, TouchableHighlight, ActivityIndicator, StyleSheet, ScrollView, Image, DeviceEventEmitter, Platform } from 'react-native';
 
-
 import Icon from 'react-native-vector-icons/Entypo';
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -15,7 +14,7 @@ const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
 
-const uploadImage = (uri, mime = 'application/octet-stream') => {
+const uploadImage = (uri, mime = 'image/jpeg') => {
   return new Promise((resolve, reject) => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
     const sessionId = new Date().getTime()
@@ -60,7 +59,7 @@ var Person = t.struct({
   semester: Semester,
   year: t.Number,
 });
-var options = {};
+var options = {maxWidth:1400,quality:0.6,allowsEditing:true};
 class AddQuestion extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>Add Question</Text>,
@@ -103,9 +102,13 @@ class AddQuestion extends Component {
             ], )
 
           }).catch((e) => {
-            console.log(e)
+            Alert.alert("Error", "Something is wrong! Please try again later", [
+              { text: 'Back To Home', onPress: () => this.props.navigation.navigate('Home') },
+            ], )
 
           })
+      }).catch((e)=>{
+        Alert.alert("Error", "Something is wrong! Please try again later")
       })
     } else {
       console.log('please upload the quesiton!')
@@ -128,7 +131,7 @@ class AddQuestion extends Component {
 
   _pickImage() {
     this.setState({ uploadURL: ''})
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.showImagePicker(options, (response) => {
       console.log('fucking',response)
       if (response.didCancel) {
         console.log('User cancelled image picker');

@@ -7,19 +7,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-  FlatList
+  FlatList,ActivityIndicator
 } from 'react-native';
 
 import * as firebase from 'firebase';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Entypo';
+
+
 import Question from '../components/Question';
 import { MonoText } from '../components/StyledText';
 import Header from '../components/Header';
+
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state ={
+      isLoading:true,
       data :[
         {exam:'quiz', semester:'summer', year:'2014', subjectCode:'swe112', url:'http://lorempixel.com/400/200/' },
         {exam:'quiz', semester:'summer', year:'2014', subjectCode:'swe112', url:'http://lorempixel.com/400/200/' },
@@ -49,7 +54,8 @@ componentDidMount(){
     ref.limitToLast(3).once('value').then(function (snapshot) {  
         console.log(snapshot.val())
       that.setState({
-        data: _.reverse(_.values(snapshot.val()))
+        data: _.reverse(_.values(snapshot.val())),
+        isLoading:false
       })
 
      }).catch((e) => {
@@ -58,12 +64,15 @@ componentDidMount(){
   }
 
   renderData() {
+    if(this.state.isLoading) return  <ActivityIndicator  animating size={50} />
+    else {
     return <FlatList style={{ padding: 10 }}
       horizontal
       data={this.state.data}
       keyExtractor={(item, index) => index}
       renderItem={({ item,index }) => <Question item={item} in={index} navigation={this.props.navigation} />}
     />
+    }
   }
 
   render() {
