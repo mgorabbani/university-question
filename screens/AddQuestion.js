@@ -105,10 +105,11 @@ class AddQuestion extends Component {
             Alert.alert("Error", "Something is wrong! Please try again later", [
               { text: 'Back To Home', onPress: () => this.props.navigation.navigate('Home') },
             ], )
-
+            this.setState({uploading:false})
           })
       }).catch((e)=>{
-        Alert.alert("Error", "Something is wrong! Please try again later")
+        Alert.alert("Error", "Something is wrong! Please try again later");
+        this.setState({uploading:false})
       })
     } else {
       console.log('please upload the quesiton!')
