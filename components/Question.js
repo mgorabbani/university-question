@@ -5,10 +5,16 @@ import {
     Image,
     TouchableWithoutFeedback
 } from 'react-native';
+import randomColor from 'randomcolor';
+
+
+let color= randomColor({hue: 'green', count: 18});
+
+
 
 export default Question = (props) => {
     const { exam, semester, year, subjectCode, url } = props.item
-    console.log(props.item)
+    console.log(props.in,'index')
     return (
         <TouchableWithoutFeedback onPress={() => props.navigation.navigate('View',{url})}>
             <View style={styles.box}>
@@ -19,10 +25,9 @@ export default Question = (props) => {
                     <Text style={{  }}>Year: {year}</Text>
                 </View>
                 <View style={{ padding: 10 }} >
-                    <Image
-                        style={{ width: 145, height: 150 }}
-                        source={{ uri: url }}
-                    />
+                    <View style={{backgroundColor:color[props.in],height:100,flex:1,alignItems:'center',justifyContent:'center'}} >
+                        <Text style={{color:'#fff',fontSize:18,fontWeight:'bold'}} >{exam}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableWithoutFeedback>

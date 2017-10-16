@@ -62,7 +62,7 @@ componentDidMount(){
       horizontal
       data={this.state.data}
       keyExtractor={(item, index) => index}
-      renderItem={({ item }) => <Question item={item} navigation={this.props.navigation} />}
+      renderItem={({ item,index }) => <Question item={item} in={index} navigation={this.props.navigation} />}
     />
   }
 

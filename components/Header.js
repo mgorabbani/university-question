@@ -18,7 +18,7 @@ class Header extends Component {
     _onBlur() {
         if (this.state.search.length > 0) {
             console.log('On search')
-            this.props.navigation.navigate('Search');
+            this.props.navigation.navigate('Search',{keyword:this.state.search});
         } else {
             console.log('On Blur', this.state)
         }
