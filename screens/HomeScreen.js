@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import * as firebase from 'firebase';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Entypo';
 import Question from '../components/Question';
 import { MonoText } from '../components/StyledText';
@@ -39,11 +40,30 @@ export default class HomeScreen extends React.Component {
   </TouchableOpacity>,
   });
 
+componentDidMount(){
+  this.fetchData()
+}
+  fetchData(){
+    let that = this;
+    var ref = firebase.database().ref("questions/");
+    ref.limitToLast(3).once('value').then(function (snapshot) {  
+        console.log(snapshot.val())
+      that.setState({
+        data: _.reverse(_.values(snapshot.val()))
+      })
 
-  
+     }).catch((e) => {
+        console.error(e)
+     })
+  }
 
   renderData() {
-    return <Question item={this.state.data[0]} navigation={this.props.navigation} />
+    return <FlatList style={{ padding: 10 }}
+      horizontal
+      data={this.state.data}
+      keyExtractor={(item, index) => index}
+      renderItem={({ item }) => <Question item={item} navigation={this.props.navigation} />}
+    />
   }
 
   render() {
