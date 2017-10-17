@@ -25,7 +25,7 @@ import Question from '../components/Question'
 
 
   renderData(){
-    if(this.state.isLoading) return  <View style={{marginTop:100}} ><ActivityIndicator  animating size={50} /></View>
+    if(this.state.isLoading) return  <View style={{marginTop:100}} ><ActivityIndicator  animating /></View>
     else {
      return <FlatList
           data={this.state.data}

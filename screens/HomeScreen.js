@@ -52,9 +52,14 @@ componentDidMount(){
     let that = this;
     var ref = firebase.database().ref("questions/");
     ref.limitToLast(3).once('value').then(function (snapshot) {  
-        console.log(snapshot.val())
+      let newshot= []
+      snapshot.forEach(function(data) {
+            news= {key:data.key,data:data.val()}
+            newshot.push(news)
+      });
+      console.log(newshot)
       that.setState({
-        data: _.reverse(_.values(snapshot.val())),
+        data: _.reverse(_.values(newshot)),
         isLoading:false
       })
 
@@ -64,7 +69,8 @@ componentDidMount(){
   }
 
   renderData() {
-    if(this.state.isLoading) return  <ActivityIndicator  animating size={50} />
+    {console.log(this.state.data)}
+    if(this.state.isLoading) return  <ActivityIndicator  animating  />
     else {
     return <FlatList style={{ padding: 10 }}
       horizontal

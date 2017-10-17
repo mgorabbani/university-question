@@ -7,6 +7,7 @@ import AddQuestion from '../screens/AddQuestion'
 import SearchScreen from '../screens/SearchScreen'
 import SettingScreen from '../screens/SettingsScreen'
 import ImageViewScreen from '../screens/ImageViewScreen'
+import SavedScreen from '../screens/SavedQuestion';
 const RootStackNavigator = StackNavigator(
   {
     Home: {
@@ -39,10 +40,13 @@ const DrawerNav = DrawerNavigator({
   Home: {
     screen: RootStackNavigator
   },
+  Saved:{
+    screen:SavedScreen,
+  },
   About: {
     screen: SettingScreen
   }
-}, {
+}, { 
     contentComponent: props => <DrawerContent  {...props} />,
   })
 

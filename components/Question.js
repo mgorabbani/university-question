@@ -12,7 +12,7 @@ let colors= ['#27CB7E','#351B9B','#E22892','#1CABDA']
 let color;
 
 export default Question = (props) => {
-    const { exam, semester, year, subjectCode, url } = props.item
+    const { exam, semester, year, subjectCode, url } = props.item.data
     switch(exam) {
         case 'Mid': color=colors[0]
         case 'Final': color=colors[1]
