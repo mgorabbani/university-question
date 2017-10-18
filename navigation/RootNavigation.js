@@ -5,7 +5,7 @@ import { ScrollView, Text, View ,ImageBackground} from 'react-native'
 import HomeScreen from '../screens/HomeScreen'
 import AddQuestion from '../screens/AddQuestion'
 import SearchScreen from '../screens/SearchScreen'
-import SettingScreen from '../screens/SettingsScreen'
+import AboutScreen from '../screens/AboutScreen'
 import ImageViewScreen from '../screens/ImageViewScreen'
 import SavedScreen from '../screens/SavedQuestion';
 const RootStackNavigator = StackNavigator(
@@ -36,15 +36,52 @@ const RootStackNavigator = StackNavigator(
   }
 );
 
+const SavedStack = StackNavigator({
+  Saved:{
+    screen: SavedScreen
+  },
+  View: {
+    screen: ImageViewScreen
+  }
+  
+},{
+  navigationOptions: () => ({
+    headerTitleStyle: {
+      fontWeight: 'normal',
+    },
+    headerStyle: {
+      backgroundColor:'#27CB7E',
+      borderBottomColor:'#27CB7E',
+    }
+  }),
+})
+
+
+const AboutStack = StackNavigator({
+  About:{
+    screen: AboutScreen
+  }
+},{
+  navigationOptions: () => ({
+    headerTitleStyle: {
+      fontWeight: 'normal',
+    },
+    headerStyle: {
+      backgroundColor:'#27CB7E',
+      borderBottomColor:'#27CB7E',
+    }
+  }),
+})
+
 const DrawerNav = DrawerNavigator({
   Home: {
     screen: RootStackNavigator
   },
   Saved:{
-    screen:SavedScreen,
+    screen:SavedStack,
   },
   About: {
-    screen: SettingScreen
+    screen: AboutStack
   }
 }, { 
     contentComponent: props => <DrawerContent  {...props} />,

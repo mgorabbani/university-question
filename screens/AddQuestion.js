@@ -255,7 +255,7 @@ var styles = {
   },
   button: {
     height: 36,
-    backgroundColor: '#232129',
+    backgroundColor: '#27CB7E',
     borderRadius: 3,
     marginBottom: 10,
     alignSelf: 'stretch',
