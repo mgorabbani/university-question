@@ -8,7 +8,7 @@ import {
 import randomColor from 'randomcolor';
 
 
-let colors= ['#27CB7E','#351B9B','#E22892','#1CABDA']
+let colors= ['#27CB7E','#351B9B','#E22892','#27CB7E']
 let color;
 
 export default Question = (props) => {
