@@ -89,8 +89,8 @@ class AddQuestion extends Component {
     super(props)
     this.state = {
       value: {
-        subjectCode: 'swe221',
-        year: 2016,
+        subjectCode: '',
+        year: 2017,
         exam: 'Mid',
         semester: 'Summer',
       },
@@ -109,6 +109,7 @@ class AddQuestion extends Component {
     if (value && Localurl) { // if validation fails, value will be null
       this.setState({uploading:true})
       const { subjectCode, exam, semester, year } = value
+      subjectCode = subjectCode.toLowerCase();
       console.log(subjectCode, exam, semester, year, Localurl);
       uploadImage(Localurl).then(url => {
         firebase.database().ref(`/questions/`)

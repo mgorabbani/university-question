@@ -29,7 +29,7 @@ import Question from '../components/Question'
     else {
      return <FlatList
           data={this.state.data}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item, index) => index}
           renderItem={({ item,index }) => <Question in={index} item={item} navigation={this.props.navigation} />}
           numColumns={2}
         />
@@ -38,14 +38,30 @@ import Question from '../components/Question'
   async fetchData(){
     let that = this;
     var ref = firebase.database().ref("questions/");
-  await ref.orderByChild("subjectCode").equalTo(this.props.navigation.state.params.keyword).once("value").then(function (snapshot) {
-        that.setState({data:_.values(snapshot.val()),isLoading:false})
-        console.log(_.values(snapshot.val()))
-    }).catch((e) => {
-        console.log(e)
-    })
+    let keyword= that.props.navigation.state.params.keyword;
+
+  await ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
+      let newshot= []
+      snapshot.forEach(function(data) {
+            news= {key:data.key,data:data.val()}
+            newshot.push(news)
+      });
+      console.log(newshot)
+      that.setState({
+        data: _.reverse(_.values(newshot)),
+        isLoading:false
+      })
+
+     }).catch((e) => {
+        console.error(e)
+     })
+
+
+  
+
   }
   componentDidMount(){
+    console.log(this.props.navigation.state.params.keyword)
     this.fetchData();
   }
   render() {
