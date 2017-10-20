@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, AsyncStorage, ActivityIndicator, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, AsyncStorage, ActivityIndicator, FlatList,Dimensions} from 'react-native';
 import store from 'react-native-simple-store';
 import Icon from 'react-native-vector-icons/Entypo';
 import _ from 'lodash';
 import Question from '../components/Question'
+import {AdMobBanner} from 'react-native-admob'
 
-
+var window = Dimensions.get('window');
 export default class SavedScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -17,7 +18,7 @@ export default class SavedScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>Question</Text>,
-    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
+    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
       <Icon name="list" size={24} color="#fff" style={{ paddingLeft: 10 }} />
     </TouchableOpacity>,
     headerTintColor: '#DFFEE6'
@@ -66,10 +67,21 @@ export default class SavedScreen extends React.Component {
       store.delete(ks)
     })
   }
+
   render() {
     return (
-      <View style={{ backgroundColor: '#fff', flex: 1 }} >
+      <View style={{ flex: 1 }} >
           {this.renderData()}
+          <View style={{ position:'absolute',bottom:10,width:Dimensions.get('window').width}} >
+        <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+        <AdMobBanner
+          adSize="banner"
+          adUnitID="ca-app-pub-7356593470289291/2596088115"
+          testDevices={['1587a345eb178ae4']}
+          onAdFailedToLoad={error => console.error(error)}
+        />
+        </View>
+       </View>
       </View>
 
     )

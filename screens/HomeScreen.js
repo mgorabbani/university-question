@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Entypo';
 
+import {AdMobBanner} from 'react-native-admob'
 
 import Question from '../components/Question';
 import { MonoText } from '../components/StyledText';
@@ -38,9 +39,9 @@ export default class HomeScreen extends React.Component {
     headerTitle:<Text style={{color:'#fff',fontWeight:'bold',}}>DIU QUESTIONS</Text>,
 
     headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')} >
-      <Icon name="add-to-list" size={24} color="#fff" style={{paddingRight:10}} />
+      <Icon name="add-to-list" size={24} color="#fff" style={{padding:10}} hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}/>
     </TouchableOpacity>,
-    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
+    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
     <Icon name="list" size={24} color="#fff" style={{paddingLeft:10}} />
   </TouchableOpacity>,
   });
@@ -96,9 +97,17 @@ componentDidMount(){
               <Text style={{ fontSize: 18, fontWeight: "bold", color: '#351B9B', padding: 10, paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
             </View>
           </View>
-
+        
 
         </ScrollView>
+       <View style={{alignItems:'center',justifyContent:'center',marginBottom:10}} >
+       <AdMobBanner
+          adSize="banner"
+          adUnitID="ca-app-pub-7356593470289291/2596088115"
+          testDevices={['1587a345eb178ae4']}
+          onAdFailedToLoad={error => console.error(error)}
+        />
+       </View>
       </View>
     );
   }
@@ -107,7 +116,6 @@ componentDidMount(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
  
   contentContainer: {

@@ -8,7 +8,7 @@ export default class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle:<Text style={{color:'#fff',fontWeight:'bold',}}>About</Text>,
 
-    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
+    headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')}hitSlop={{top: 20, bottom: 20, left: 50, right: 50}} >
     <Icon name="list" size={24} color="#fff" style={{paddingLeft:10}} />
   </TouchableOpacity>,
   });
