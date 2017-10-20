@@ -25,6 +25,7 @@ import Question from '../components/Question'
     headerTintColor:'#DFFEE6'
   });
 
+  
   renderData() {
     console.log(this.state.data.length,'length')
     if (this.state.isLoading) {
