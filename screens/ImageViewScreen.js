@@ -6,7 +6,8 @@ import PhotoView from 'react-native-photo-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { AdMobBanner, AdMobInterstitial } from 'react-native-admob'
-
+AdMobInterstitial.setTestDevices(['1587a345eb178ae4']);
+AdMobInterstitial.setAdUnitID('ca-app-pub-7356593470289291/1983389189');
 export default class ImageViewScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -47,8 +48,7 @@ export default class ImageViewScreen extends React.Component {
 
     })
 
-    AdMobInterstitial.setTestDevices(['1587a345eb178ae4']);
-    AdMobInterstitial.setAdUnitID('ca-app-pub-7356593470289291/1983389189');
+
 
   //   AdMobInterstitial.addEventListener('adLoaded',
   //   () => console.log('AdMobInterstitial adLoaded')
