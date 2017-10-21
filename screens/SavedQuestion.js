@@ -60,6 +60,7 @@ export default class SavedScreen extends React.Component {
   }
   componentDidMount() {
     this.getQuestion();
+    // this.deleteAll()
   }
   deleteAll() {
     store.keys().then((ks) => {
@@ -70,7 +71,7 @@ export default class SavedScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }} >
+      <View style={{ flex: 1 ,paddingLeft:10}} >
           {this.renderData()}
           <View style={{ position:'absolute',bottom:10,width:Dimensions.get('window').width}} >
         <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>

@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 var window = Dimensions.get('window');
 import Question from '../components/Question'
 
-
+import store from 'react-native-simple-store';
 
  class Search extends Component {
    constructor(props){
@@ -47,7 +47,8 @@ import Question from '../components/Question'
   }
   async fetchData(){
     let that = this;
-    var ref = firebase.database().ref("questions/");
+    let university = this.state.university
+    var ref = firebase.database().ref("questions/"+university);
     let keyword= that.props.navigation.state.params.keyword;
 
   await ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
@@ -71,7 +72,15 @@ import Question from '../components/Question'
 
   }
   componentDidMount(){
-    console.log(this.props.navigation.state.params.keyword)
+    store.get('university').then((data) => {
+      console.log(data)
+      if (data) this.setState({ university: data })
+      else
+      Alert.alert("Attention", "Please select your university first!", [
+        { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
+      ], )
+  
+    })
     this.fetchData();
   }
   render() {

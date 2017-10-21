@@ -13,7 +13,7 @@ import {
 import * as firebase from 'firebase';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import store from 'react-native-simple-store';
 import {AdMobBanner} from 'react-native-admob'
 
 import Question from '../components/Question';
@@ -26,6 +26,7 @@ export default class HomeScreen extends React.Component {
     super(props)
     this.state ={
       isLoading:true,
+      university:'dhakaiu',
       data :[
         {exam:'quiz', semester:'summer', year:'2014', subjectCode:'swe112', url:'http://lorempixel.com/400/200/' },
         {exam:'quiz', semester:'summer', year:'2014', subjectCode:'swe112', url:'http://lorempixel.com/400/200/' },
@@ -47,11 +48,22 @@ export default class HomeScreen extends React.Component {
   });
 
 componentDidMount(){
+  store.get('university').then((data) => {
+    console.log(data)
+    if (data) this.setState({ university: data })
+    else
+    Alert.alert("Attention", "Please select your university first!", [
+      { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
+    ], )
+
+  })
+
   this.fetchData()
 }
   fetchData(){
     let that = this;
-    var ref = firebase.database().ref("questions/");
+    let university = this.state.university
+    var ref = firebase.database().ref("questions/"+university);
     ref.limitToLast(3).once('value').then(function (snapshot) {  
       let newshot= []
       snapshot.forEach(function(data) {

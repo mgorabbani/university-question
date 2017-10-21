@@ -1,79 +1,104 @@
 import React from 'react';
 
-import { Text, View, TouchableOpacity, ToastAndroid, TextInput, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ToastAndroid, Picker, ScrollView } from 'react-native';
 import store from 'react-native-simple-store';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import * as firebase from 'firebase';
+import _ from 'lodash';
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      university: null
+      university: null,
+      data: [{ id: "1", name: "loading..." }]
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>About</Text>,
+    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold',fontSize:16 }}>Setting</Text>,
 
     headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }} >
       <Icon name="list" size={24} color="#fff" style={{ paddingLeft: 10 }} />
     </TouchableOpacity>,
   });
 
-  saveVarsityName() {
-    store.update('university', this.state.university).then((data) => {
-      ToastAndroid.show('Your Universty is set to ' + data, ToastAndroid.SHORT);
-    })
+  saveVarsityName(varsity) {
+    store.update('university',varsity).then((data) => {
+     
+    }).catch(e=>{console.log(e)})
 
   }
 
+  
+  componentDidMount() {
+    this.fetchData();
+    store.get('university').then((data) => {
+      console.log(data)
+      if (data) this.setState({ university: data })
+    })
+
+  }
   async fetchData() {
     let that = this;
-    var ref = firebase.database().ref("questions/");
-//child seearch;
-    await ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
-      console.log(snapshot.val())
+    var ref = firebase.database().ref("university_list");
 
+    // firebase.database().ref('university_list').push({
+    //  name:'Dhaka International University',
+    //  id:'dhakaiu'
+    // });
+    // //child seearch;
+    // firebase.database().ref('university/'+this.state.university).set({
+    //   exam: "Final",
+    //   semester: "Summer",
+    //    subjectCode: "swe222",
+    //    url: "https://firebasestorage.googleapis.com/v0/b/diuquestions.appspot.com/o/images%2F1508529847243?alt=media&token=21807a09-1481-47cc-b619-bd583dab15ac",
+    //    year: 2017
+    // });
+
+    await ref.orderByKey().once("value").then(function (snapshot) {
+      let newshot = []
+      snapshot.forEach(function (data) {
+        newshot.push(data.val())
+      });
+      console.log(newshot)
+      that.setState({
+        data: (newshot),
+      })
     }).catch((e) => {
       console.error(e)
     })
 
   }
+
+
   render() {
-console.log(this.state.university)
-    return <ScrollView>
+
+    console.log(this.state.university)
+    return <ScrollView style={{backgroundColor:'#fff'}} >
       <View>
-        <Text>Universty Name: </Text>
-        <TextInput onChangeText={(e) => this.setState({ university: e })} />
-        <TouchableOpacity style={{
-          height: 36,
-          backgroundColor: '#27CB7E',
-          borderRadius: 3,
-          marginBottom: 10,
-          alignSelf: 'stretch',
-          justifyContent: 'center'
-        }} onPress={() => this.saveVarsityName()} >
-          <Text>Save</Text>
-        </TouchableOpacity>
-        <Text>
+        <Text style={{fontSize:18,padding:10,color:'#351B9B'}} >Universty Name: </Text>
+
+        <Picker
+          selectedValue={this.state.university}
+          onValueChange={(cli) => {
+            this.saveVarsityName(cli)
+            this.setState({ university: cli })
+          }}>
+          {this.state.data.map((l, i) => {
+            return <Picker.Item value={l.id} label={l.name} key={i} />
+          })}
+        </Picker>
+
+
+        <Text style={{padding:10,fontSize:16}}>
           You can only search question from your university, Please leave us message if you have any feedback.
           This app is only for previous semesters question. if anyone leaks upcoming exam's question we are not ...... .
         furthermore if we found such thing that question will be removed.
-        If you don't find your university name on the list please feel free to message us. we will add it ASAP.
           </Text>
-          <TouchableOpacity
-          style={{
-          height: 36,
-          backgroundColor: '#27CB7E',
-          borderRadius: 3,
-          marginBottom: 10,
-          alignSelf: 'stretch',
-          justifyContent: 'center'
-        }} 
-          onPress={() => this.openSearchModal()}
-        >
-          <Text>Pick a Place</Text>
-        </TouchableOpacity>
+          <Text style={{padding:10,fontSize:16}}>
+          If you don't find your university name on the list please feel free to message us. we will add it ASAP.
+          </Text>
+
       </View>
     </ScrollView>;
   }

@@ -80,7 +80,7 @@ const DrawerNav = DrawerNavigator({
   Saved:{
     screen:SavedStack,
   },
-  About: {
+  Setting: {
     screen: AboutStack
   }
 }, { 

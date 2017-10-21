@@ -104,8 +104,8 @@ componentDidMount() {
     console.log(data)
     if (data) this.setState({ university: data })
     else
-    Alert.alert("Error", "Please select your university first!", [
-      { text: 'Go to About', onPress: () => this.props.navigation.navigate('About') },
+    Alert.alert("Attention", "Please select your university first!", [
+      { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
     ], )
 
   })
@@ -186,7 +186,7 @@ componentDidMount() {
         <View style={styles.container}>
 
           {console.log(this.state.uploading)}
-
+          <Text style={{color:"#000",fontSize:17,marginBottom:10,fontWeight:'bold',alignContent:'center'}}>University ID: {this.state.university}</Text>
           <Form
             ref="form"
             type={Person}
