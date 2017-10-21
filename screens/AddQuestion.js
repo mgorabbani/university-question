@@ -105,7 +105,7 @@ componentDidMount() {
     if (data) this.setState({ university: data })
     else
     Alert.alert("Attention", "Please select your university first!", [
-      { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
+      { text: 'Go to Setting', onPress: () => this.props.navigation.navigate('Setting') },
     ], )
 
   })

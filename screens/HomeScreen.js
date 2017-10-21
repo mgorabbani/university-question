@@ -30,8 +30,6 @@ export default class HomeScreen extends React.Component {
       university: 'dhakaiu',
       data: [
         { exam: 'quiz', semester: 'summer', year: '2014', subjectCode: 'swe112', url: 'http://lorempixel.com/400/200/' },
-        { exam: 'quiz', semester: 'summer', year: '2014', subjectCode: 'swe112', url: 'http://lorempixel.com/400/200/' },
-        { exam: 'quiz', semester: 'summer', year: '2014', subjectCode: 'swe112', url: 'http://lorempixel.com/400/200/' }
       ]
     }
   }
@@ -73,7 +71,7 @@ export default class HomeScreen extends React.Component {
         })
       } else
         Alert.alert("Attention", "Please select your university first!", [
-          { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
+          { text: 'Go to Setting', onPress: () => this.props.navigation.navigate('Setting') },
         ], )
 
     })

@@ -5,7 +5,7 @@ import { ScrollView, Text, View ,ImageBackground,Linking,TouchableOpacity} from 
 import HomeScreen from '../screens/HomeScreen'
 import AddQuestion from '../screens/AddQuestion'
 import SearchScreen from '../screens/SearchScreen'
-import AboutScreen from '../screens/AboutScreen'
+import SettingScreen from '../screens/SettingScreen'
 import ImageViewScreen from '../screens/ImageViewScreen'
 import SavedScreen from '../screens/SavedQuestion';
 const RootStackNavigator = StackNavigator(
@@ -57,9 +57,9 @@ const SavedStack = StackNavigator({
 })
 
 
-const AboutStack = StackNavigator({
-  About:{
-    screen: AboutScreen
+const SettingStack = StackNavigator({
+  Setting:{
+    screen: SettingScreen
   }
 },{
   navigationOptions: () => ({
@@ -81,7 +81,7 @@ const DrawerNav = DrawerNavigator({
     screen:SavedStack,
   },
   Setting: {
-    screen: AboutStack
+    screen: SettingStack
   }
 }, { 
     contentComponent: props => <DrawerContent  {...props} />,

@@ -68,13 +68,13 @@ export default class SavedScreen extends React.Component {
     this.getQuestion();
     // this.deleteAll()
   }
-  async deleteAll() {
-    await store.keys().then((ks) => {
-      console.log(ks, 'all the keys')
-      this.setState({isLoading: false })
-      store.delete(ks)
-    })
-  }
+  // async deleteAll() {
+  //   await store.keys().then((ks) => {
+  //     console.log(ks, 'all the keys')
+  //     this.setState({isLoading: false })
+  //     store.delete(ks)
+  //   })
+  // }
 
   render() {
     return (

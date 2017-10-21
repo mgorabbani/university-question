@@ -63,7 +63,7 @@ export default class SettingsScreen extends React.Component {
     console.log(this.state.university)
     return <ScrollView style={{backgroundColor:'#fff'}} >
       <View>
-        <Text style={{fontSize:18,padding:10,color:'#351B9B'}} >Universty Name: </Text>
+        <Text style={{fontSize:18,padding:10,color:'#351B9B'}} >Choose Your Universty: </Text>
 
         <Picker
           selectedValue={this.state.university}

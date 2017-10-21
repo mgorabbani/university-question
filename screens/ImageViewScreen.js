@@ -11,24 +11,18 @@ AdMobInterstitial.setAdUnitID('ca-app-pub-7356593470289291/1983389189');
 export default class ImageViewScreen extends React.Component {
   constructor(props) {
     super(props)
-    // this.props.saveQues = this.saveQuestion()
-
   }
 
   static navigationOptions = ({ navigation }) => ({
-
     headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>Question</Text>,
     headerRight:
     <TouchableOpacity style={{ padding: 10 }} onPress={() => {
-
-
       store.get(navigation.state.params.question.key).then((data) => {
         if (data) {
           store.delete(navigation.state.params.question.key)
           navigation.setParams({ color: 'white' })
         } else {
           AdMobInterstitial.showAd().catch(error => console.warn(error));
-
             store.save(navigation.state.params.question.key, navigation.state.params.question)
             navigation.setParams({ color: 'red' })
         }
@@ -40,12 +34,10 @@ export default class ImageViewScreen extends React.Component {
 
   });
   componentDidMount() {
-
     store.get(this.props.navigation.state.params.question.key).then((data) => {
       if (data) this.props.navigation.setParams({ color: 'red' })
       else
         this.props.navigation.setParams({ color: 'white' })
-
     })
 
 
@@ -69,10 +61,7 @@ export default class ImageViewScreen extends React.Component {
   //   () => console.log('AdMobInterstitial => adLeftApplication')
   // );
 
-  AdMobInterstitial.requestAd().catch(error => console.warn(error));
-
-
-
+  AdMobInterstitial.requestAd().catch(error => console.log(error));
   }
 
   componentWillUnmount() {
