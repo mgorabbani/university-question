@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, View, TouchableOpacity, ToastAndroid, Picker, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, Picker, ScrollView } from 'react-native';
 import store from 'react-native-simple-store';
 import Icon from 'react-native-vector-icons/Entypo';
 import * as firebase from 'firebase';
@@ -78,12 +78,11 @@ export default class SettingsScreen extends React.Component {
 
 
         <Text style={{padding:10,fontSize:16}}>
-          You can only search question from your university, Please leave us message if you have any feedback.
-          This app is only for previous semesters question. if anyone leaks upcoming exam's question we are not ...... .
-        furthermore if we found such thing that question will be removed.
+        This app is a way to share the questions in the previous semester of your university. By using this app you are not allowed to reveal upcoming exam questions. If you leak any questions for the next exam, we will delete it. 
+        So stay with us and help others by informing about the types of questions you have in  previous exam .
           </Text>
           <Text style={{padding:10,fontSize:16}}>
-          If you don't find your university name on the list please feel free to message us. we will add it ASAP.
+          If you can not find the name of your university in this list, please let us know. We will add it ASAP.
           </Text>
 
       </View>

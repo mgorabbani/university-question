@@ -38,7 +38,7 @@ export default class HomeScreen extends React.Component {
 
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>DIU QUESTIONS</Text>,
+    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>UNIVERSITY QUESTIONS</Text>,
 
     headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')} >
       <Icon name="add-to-list" size={24} color="#fff" style={{ padding: 10 }} hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }} />
