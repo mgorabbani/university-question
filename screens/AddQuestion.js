@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, View, Text, TouchableHighlight, ActivityIndicator, StyleSheet, ScrollView, Image, DeviceEventEmitter, Platform } from 'react-native';
-
+import store from 'react-native-simple-store';
 import Icon from 'react-native-vector-icons/Entypo';
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -61,7 +61,6 @@ console.log("imageStorage",imageRef);
 }
 // here we are: define your domain model
 var Exam = t.enums({
-  Quiz: 'Quiz',
   Mid: 'Mid Term',
   Final: 'Final'
 });
@@ -96,23 +95,38 @@ class AddQuestion extends Component {
       },
       image: null,
       uploading: false,
+      university:null
     }
   }
+
+componentDidMount() {
+  store.get('university').then((data) => {
+    console.log(data)
+    if (data) this.setState({ university: data })
+    else
+    Alert.alert("Error", "Please select your university first!", [
+      { text: 'Go to About', onPress: () => this.props.navigation.navigate('About') },
+    ], )
+
+  })
+
+}
 
   onPress() {
     let Localurl
     // call getValue() to get the values of the form
     
     var value = this.refs.form.getValue()
-    Localurl= this.state.uploadURL
+    Localurl= this.state.uploadURL;
+    let university = this.state.university;
     if(!Localurl) this.setState({isImageUploaded:true})
-    if (value && Localurl) { // if validation fails, value will be null
+    if (value && Localurl && university) { // if validation fails, value will be null
       this.setState({uploading:true})
       const { subjectCode, exam, semester, year } = value
       subjectCode = subjectCode.toLowerCase();
       console.log(subjectCode, exam, semester, year, Localurl);
       uploadImage(Localurl).then(url => {
-        firebase.database().ref(`/questions/`)
+        firebase.database().ref(`/questions/${university}`)
           .push({ subjectCode, exam, semester, year, url })
           .then(() => {
             this.setState({uploading:false})
