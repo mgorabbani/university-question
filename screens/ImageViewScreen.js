@@ -97,7 +97,7 @@ export default class ImageViewScreen extends React.Component {
             adSize="banner"
             adUnitID="ca-app-pub-7356593470289291/2596088115"
             testDevices={['1587a345eb178ae4']}
-            onAdFailedToLoad={error => console.error(error)}
+            onAdFailedToLoad={error => console.log(error)}
           />
         </View>
       </View>

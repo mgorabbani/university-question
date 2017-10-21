@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList,ActivityIndicator ,Dimensions} from 'react-native';
+import { View, Text, FlatList,ActivityIndicator ,Dimensions,Alert,} from 'react-native';
 import * as firebase from 'firebase';
 import _ from 'lodash';
 import {AdMobBanner} from 'react-native-admob'
@@ -47,11 +47,12 @@ import store from 'react-native-simple-store';
   }
   async fetchData(){
     let that = this;
-    let university = this.state.university
-    var ref = firebase.database().ref("questions/"+university);
+    await store.get('university').then((dd) => {
+if(dd) {
+    var ref = firebase.database().ref("/questions/"+dd);
     let keyword= that.props.navigation.state.params.keyword;
-
-  await ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
+console.log(ref,"refff")
+   ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
       let newshot= []
       snapshot.forEach(function(data) {
             news= {key:data.key,data:data.val()}
@@ -66,21 +67,17 @@ import store from 'react-native-simple-store';
      }).catch((e) => {
         console.error(e)
      })
+    }  else
+    Alert.alert("Attention", "Please select your university first!", [
+      { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
+    ], )
 
-
+    })
   
 
   }
   componentDidMount(){
-    store.get('university').then((data) => {
-      console.log(data)
-      if (data) this.setState({ university: data })
-      else
-      Alert.alert("Attention", "Please select your university first!", [
-        { text: 'Go to About', onPress: () => this.props.navigation.navigate('Setting') },
-      ], )
-  
-    })
+
     this.fetchData();
   }
   render() {
@@ -93,7 +90,7 @@ import store from 'react-native-simple-store';
           adSize="banner"
           adUnitID="ca-app-pub-7356593470289291/2596088115"
           testDevices={['1587a345eb178ae4']}
-          onAdFailedToLoad={error => console.error(error)}
+          onAdFailedToLoad={error => console.log(error)}
         />
         </View>
        </View>

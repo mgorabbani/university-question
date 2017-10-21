@@ -42,19 +42,6 @@ export default class SettingsScreen extends React.Component {
     let that = this;
     var ref = firebase.database().ref("university_list");
 
-    // firebase.database().ref('university_list').push({
-    //  name:'Dhaka International University',
-    //  id:'dhakaiu'
-    // });
-    // //child seearch;
-    // firebase.database().ref('university/'+this.state.university).set({
-    //   exam: "Final",
-    //   semester: "Summer",
-    //    subjectCode: "swe222",
-    //    url: "https://firebasestorage.googleapis.com/v0/b/diuquestions.appspot.com/o/images%2F1508529847243?alt=media&token=21807a09-1481-47cc-b619-bd583dab15ac",
-    //    year: 2017
-    // });
-
     await ref.orderByKey().once("value").then(function (snapshot) {
       let newshot = []
       snapshot.forEach(function (data) {

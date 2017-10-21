@@ -25,11 +25,17 @@ export default class SavedScreen extends React.Component {
 
   });
 
-  getQuestion() {
+  async getQuestion() {
     that = this;
-    store.keys().then((keys) => {
+   await store.keys().then((keys) => {
       console.log(keys, 'key')
-      store.get(keys).then((data) => {
+        let onlyQuesitonKey= keys.filter((d)=>{
+          if(d!=='university') {
+            return d;
+          }
+        }) 
+        console.log(onlyQuesitonKey, 'onlyQuesitonKey')
+      store.get(onlyQuesitonKey).then((data) => {
         console.log(data, 'data')
         that.setState({ questions: data, isLoading: false })
 
@@ -62,9 +68,10 @@ export default class SavedScreen extends React.Component {
     this.getQuestion();
     // this.deleteAll()
   }
-  deleteAll() {
-    store.keys().then((ks) => {
+  async deleteAll() {
+    await store.keys().then((ks) => {
       console.log(ks, 'all the keys')
+      this.setState({isLoading: false })
       store.delete(ks)
     })
   }
@@ -79,7 +86,7 @@ export default class SavedScreen extends React.Component {
           adSize="banner"
           adUnitID="ca-app-pub-7356593470289291/2596088115"
           testDevices={['1587a345eb178ae4']}
-          onAdFailedToLoad={error => console.error(error)}
+          onAdFailedToLoad={error => console.log(error)}
         />
         </View>
        </View>
