@@ -105,7 +105,7 @@ componentDidMount() {
     if (data) this.setState({ university: data })
     else
     Alert.alert("Attention", "Please select your university first!", [
-      { text: 'Go to Setting', onPress: () => this.props.navigation.navigate('Setting') },
+      { text: 'Go to Setting', },
     ], )
 
   })
@@ -131,12 +131,12 @@ componentDidMount() {
           .then(() => {
             this.setState({uploading:false})
             Alert.alert("Success", "Question added successfully!", [
-              { text: 'Back To Home', onPress: () => this.props.navigation.navigate('Home') },
+              { text: 'Back To Home', onPress: () => this.props.navigation.goBack() },
             ], )
 
           }).catch((e) => {
             Alert.alert("Error", "Something is wrong! Please try again later", [
-              { text: 'Back To Home', onPress: () => this.props.navigation.navigate('Home') },
+              { text: 'Back To Home', onPress: () => this.props.navigation.goBack() },
             ], )
             this.setState({uploading:false})
           })
