@@ -22,7 +22,7 @@ export default class ImageViewScreen extends React.Component {
           store.delete(navigation.state.params.question.key)
           navigation.setParams({ color: 'white' })
         } else {
-          AdMobInterstitial.showAd().catch(error => console.warn(error));
+          // AdMobInterstitial.showAd().catch(error => console.warn(error));
             store.save(navigation.state.params.question.key, navigation.state.params.question)
             navigation.setParams({ color: 'red' })
         }
@@ -61,11 +61,11 @@ export default class ImageViewScreen extends React.Component {
   //   () => console.log('AdMobInterstitial => adLeftApplication')
   // );
 
-  AdMobInterstitial.requestAd().catch(error => console.log(error));
+  // AdMobInterstitial.requestAd().catch(error => console.log(error));
   }
 
   componentWillUnmount() {
-    AdMobInterstitial.removeAllListeners();
+    // AdMobInterstitial.removeAllListeners();
   }
 
   render() {
@@ -82,12 +82,12 @@ export default class ImageViewScreen extends React.Component {
 
       <View style={{ position: 'absolute', bottom: 10, width: Dimensions.get('window').width }} >
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <AdMobBanner
+          {/* <AdMobBanner
             adSize="banner"
             adUnitID="ca-app-pub-7356593470289291/2596088115"
             testDevices={['1587a345eb178ae4']}
             onAdFailedToLoad={error => console.log(error)}
-          />
+          /> */}
         </View>
       </View>
     </View>;

@@ -56,7 +56,7 @@ export default class SavedScreen extends React.Component {
       <Icon name="feather" size={200} color="#9C9C9E" />
     </View>
     } else {
-      return <FlatList
+      return <FlatList style={{marginBottom:50}}
       data={this.state.questions}
       keyExtractor={(item, index) => item.id}
       renderItem={({ item, index }) => <Question in={index} item={item} navigation={this.props.navigation} />}
@@ -78,16 +78,16 @@ export default class SavedScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 ,paddingLeft:10}} >
+      <View style={{ flex: 1 ,paddingLeft:10,}} >
           {this.renderData()}
           <View style={{ position:'absolute',bottom:10,width:Dimensions.get('window').width}} >
         <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-        <AdMobBanner
-          adSize="banner"
+        {/* <AdMobBanner
+          adSize="largeBanner"
           adUnitID="ca-app-pub-7356593470289291/2596088115"
           testDevices={['1587a345eb178ae4']}
           onAdFailedToLoad={error => console.log(error)}
-        />
+        /> */}
         </View>
        </View>
       </View>

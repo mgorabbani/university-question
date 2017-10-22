@@ -95,8 +95,7 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Header navigation={this.props.navigation} />
         <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
+          style={styles.container}>
 
           <View style={styles.welcomeContainer}>
             <View>
@@ -105,17 +104,17 @@ export default class HomeScreen extends React.Component {
               <Text style={{ fontSize: 18, fontWeight: "bold", color: '#351B9B', padding: 10, paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
             </View>
           </View>
-
-
-        </ScrollView>
-        <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }} >
+{/* 
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }} >
           <AdMobBanner
-            adSize="banner"
+            adSize="largeBanner"
             adUnitID="ca-app-pub-7356593470289291/2596088115"
             testDevices={['1587a345eb178ae4']}
             onAdFailedToLoad={error => console.log(error)}
           />
-        </View>
+        </View> */}
+        </ScrollView>
+       
       </View>
     );
   }
@@ -124,10 +123,6 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-
-  contentContainer: {
-    paddingTop: 30,
   },
   welcomeContainer: {
     alignItems: 'center',

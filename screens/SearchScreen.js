@@ -86,12 +86,12 @@ class Search extends Component {
         {this.renderData()}
         <View style={{ position: 'absolute', bottom: 10, width: Dimensions.get('window').width }} >
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <AdMobBanner
-              adSize="banner"
+            {/* <AdMobBanner
+              adSize="largeBanner"
               adUnitID="ca-app-pub-7356593470289291/2596088115"
               testDevices={['1587a345eb178ae4']}
               onAdFailedToLoad={error => console.log(error)}
-            />
+            /> */}
           </View>
         </View>
       </View>
