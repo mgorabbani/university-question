@@ -6,7 +6,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 
-let colors= ['#27CB7E','#351B9B','#E22892','#27CB7E']
+let colors= ['#154120','#351B9B','#E22892','#1B622D']
 let color;
 
 export default Question = (props) => {

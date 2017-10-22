@@ -212,7 +212,7 @@ componentDidMount() {
 
 
           </View>
-          <TouchableHighlight style={styles.button} onPress={() => this.onPress()} underlayColor='#0002FF'>
+          <TouchableHighlight style={styles.button} onPress={() => this.onPress()} underlayColor='#154120'>
             {this.button()}
           </TouchableHighlight>
         </View>
@@ -270,7 +270,7 @@ var styles = {
   },
   button: {
     height: 36,
-    backgroundColor: '#27CB7E',
+    backgroundColor: '#1B622D',
     borderRadius: 3,
     marginBottom: 10,
     alignSelf: 'stretch',

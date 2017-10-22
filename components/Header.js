@@ -25,11 +25,11 @@ class Header extends Component {
     }
     render() {
         return (
-            <View style={{ backgroundColor: "#27CB7E", padding:5}}>
+            <View style={{ backgroundColor: "#176A39", padding:5}}>
 
                 <SearchBar
                     inputStyle={{ backgroundColor: "#fff", borderWidth: 0, borderRadius: 2 }}
-                    iconColor="#27CB7E"
+                    iconColor="#176A39"
                     onSearchChange={(value) => this.setState({ search: value })}
                     height={40}
                     onFocus={() => console.log('On Focus')}

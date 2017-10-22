@@ -99,9 +99,9 @@ export default class HomeScreen extends React.Component {
 
           <View style={styles.welcomeContainer}>
             <View>
-              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#351B9B', padding: 10 }}>Latest Uploads</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', padding: 10 }}>Latest Uploads</Text>
               {this.renderData()}
-              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#351B9B', padding: 10, paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', padding: 10, paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
             </View>
           </View>
 {/* 
