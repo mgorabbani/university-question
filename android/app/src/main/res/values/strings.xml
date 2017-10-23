@@ -1,4 +1,4 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">3_S_HasfoNNPNHlqJoQlNpuia0-fc32bb8f0-10c6-4d83-bd31-1f4d1cab75aa</string>
-    <string name="app_name">Universty Questions</string>
+    <string name="app_name">University Questions</string>
 </resources>

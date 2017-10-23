@@ -94,7 +94,7 @@ const DrawerNav = DrawerNavigator({
 const DrawerContent = (props) => (
 
   <View style={{ flex: 1, flexDirection: 'column', paddingBottom: 10, justifyContent: 'space-between' }} >
-    <ImageBackground source={require('../assets/images/backgroundDrawer.png')} style={{ height: 150 }}>
+    <ImageBackground source={require('../assets/images/backgroundDrawer.jpg')} style={{ height: 150 }}>
       <View style={{ flexDirection: 'row', padding: 30, paddingBottom: 0, height: 150, justifyContent: 'center', alignItems: 'center' }} >
 
       </View>
