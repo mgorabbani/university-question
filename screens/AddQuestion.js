@@ -6,27 +6,28 @@ var t = require('tcomb-form-native');
 var Form = t.form.Form;
 import * as firebase from 'firebase';
 
-import ImagePicker from 'react-native-image-picker'
+// import ImagePicker from 'react-native-image-picker'
+import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'react-native-fetch-blob'
 
 const Blob = RNFetchBlob.polyfill.Blob
 const Fetch = RNFetchBlob.polyfill.Fetch
 // replace built-in fetch
 window.fetch = new Fetch({
-    // enable this option so that the response data conversion handled automatically
-    auto : true,
-    // when receiving response data, the module will match its Content-Type header
-    // with strings in this array. If it contains any one of string in this array, 
-    // the response body will be considered as binary data and the data will be stored
-    // in file system instead of in memory.
-    // By default, it only store response data to file system when Content-Type 
-    // contains string `application/octet`.
-    binaryContentTypes : [
-        'image/',
-        'video/',
-        'audio/',
-        'foo/',
-    ]
+  // enable this option so that the response data conversion handled automatically
+  auto: true,
+  // when receiving response data, the module will match its Content-Type header
+  // with strings in this array. If it contains any one of string in this array, 
+  // the response body will be considered as binary data and the data will be stored
+  // in file system instead of in memory.
+  // By default, it only store response data to file system when Content-Type 
+  // contains string `application/octet`.
+  binaryContentTypes: [
+    'image/',
+    'video/',
+    'audio/',
+    'foo/',
+  ]
 }).build()
 const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
@@ -38,7 +39,7 @@ const uploadImage = (uri, mime = 'image/jpeg') => {
     const sessionId = new Date().getTime()
     let uploadBlob = null
     const imageRef = firebase.storage().ref('images').child(`${sessionId}`)
-console.log("imageStorage",imageRef);
+    console.log("imageStorage", imageRef);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` })
@@ -76,7 +77,7 @@ var Person = t.struct({
   semester: Semester,
   year: t.Number,
 });
-var options = {maxWidth:1400,quality:0.6,allowsEditing:true};
+var options = { compressImageMaxWidth: 1000, compressImageQuality: 0.6, multiple: true,mediaType:'photo' };
 class AddQuestion extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>Add Question</Text>,
@@ -93,57 +94,73 @@ class AddQuestion extends Component {
         exam: 'Mid',
         semester: 'Summer',
       },
-      image: null,
+      images: [],
       uploading: false,
-      university:null
+      university: null,
+      isUploaded:false,
+      onlineImage:[]
     }
   }
 
-componentDidMount() {
-  store.get('university').then((data) => {
-    console.log(data)
-    if (data) this.setState({ university: data })
-    else
-    Alert.alert("Attention", "Please select your university first!", [
-      { text: 'Go to Setting', },
-    ], )
+  componentDidMount() {
+    store.get('university').then((data) => {
+      console.log(data)
+      if (data) this.setState({ university: data })
+      else
+        Alert.alert("Attention", "Please select your university first!", [
+          { text: 'Go to Setting', },
+        ], )
 
-  })
+    })
 
-}
+  }
 
-  onPress() {
+  async onPress() {
     let Localurl
     // call getValue() to get the values of the form
-    
+
     var value = this.refs.form.getValue()
-    Localurl= this.state.uploadURL;
+    Localurl = this.state.isUploaded;
     let university = this.state.university;
-    if(!Localurl) this.setState({isImageUploaded:true})
+    if (!Localurl) this.setState({ isImageUploaded: true })
     if (value && Localurl && university) { // if validation fails, value will be null
-      this.setState({uploading:true})
+
+      this.setState({ uploading: true })
       const { subjectCode, exam, semester, year } = value
       subjectCode = subjectCode.toLowerCase();
       console.log(subjectCode, exam, semester, year, Localurl);
-      uploadImage(Localurl).then(url => {
-        firebase.database().ref(`/questions/${university}`)
-          .push({ subjectCode, exam, semester, year, url })
-          .then(() => {
-            this.setState({uploading:false})
-            Alert.alert("Success", "Question added successfully!", [
-              { text: 'Back To Home', onPress: () => this.props.navigation.goBack() },
-            ], )
+      
 
-          }).catch((e) => {
-            Alert.alert("Error", "Something is wrong! Please try again later", [
-              { text: 'Back To Home', onPress: () => this.props.navigation.goBack() },
-            ], )
-            this.setState({uploading:false})
-          })
-      }).catch((e)=>{
-        Alert.alert("Error", "Something is wrong! Please try again later");
-        this.setState({uploading:false})
+    var ss=   this.state.images.map((data,i)=>{
+        return  uploadImage(data).then(url => {
+          return url
+        
+        }).catch((e) => {
+          Alert.alert("Error", "Something is wrong! Please try again later");
+          this.setState({ uploading: false })
+          return e;
+        })
       })
+      const that = this;
+      Promise.all(ss).then(function(urls) {
+        let uploadData = { subjectCode, exam, semester, year, urls }
+        firebase.database().ref(`/questions/${university}`)
+        .push(uploadData)
+        .then(() => {
+          that.setState({ uploading: false })
+          Alert.alert("Success", "Question added successfully!", [
+            { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
+          ], )
+  
+        }).catch((e) => {
+          Alert.alert("Error", "Something is wrong! Please try again later", [
+            { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
+          ], )
+          that.setState({ uploading: false })
+        })
+      })
+      
+      
     } else {
       console.log('please upload the quesiton!')
     }
@@ -152,21 +169,11 @@ componentDidMount() {
     return this.state.uploading ? <ActivityIndicator size="large" /> : <Text style={styles.buttonText}>Save</Text>
   }
 
-  imageLoading() {
-    if(this.state.uploadURL) {
-      return <Image
-      source={{ uri: this.state.uploadURL }}
-      style={styles.image}
-    />
-    }
-     
-  }
-
 
   _pickImage() {
-    this.setState({ uploadURL: ''})
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('fucking',response)
+    this.setState({ uploadURL: '' })
+    ImagePicker.openPicker(options).then((response) => {
+      console.log('fucking', response)
       if (response.didCancel) {
         console.log('User cancelled image picker');
 
@@ -175,8 +182,12 @@ componentDidMount() {
         console.log(response.error);
       }
       else {
-        this.setState({ uploadURL: response.uri })
-        console.log('shit happend',response.uri)
+        let paths = [];
+        response.map((e) => {
+          paths.push(e.path)
+        })
+        this.setState({ images: paths,isUploaded:true })
+        console.log('shit happend', paths)
       }
     })
   }
@@ -184,9 +195,7 @@ componentDidMount() {
     return (
       <ScrollView>
         <View style={styles.container}>
-
-          {console.log(this.state.uploading)}
-          <Text style={{color:"#000",fontSize:17,marginBottom:10,fontWeight:'bold',alignContent:'center'}}>University ID: {this.state.university}</Text>
+          <Text style={{ color: "#000", fontSize: 17, marginBottom: 10, fontWeight: 'bold', alignContent: 'center' }}>University ID: {this.state.university}</Text>
           <Form
             ref="form"
             type={Person}
@@ -196,7 +205,7 @@ componentDidMount() {
           />
 
           <View style={{ flexDirection: 'row', paddingVertical: 10 }} >
-            <Text style={{ fontSize: 17, fontWeight: "bold", color: !this.state.isImageUploaded? '#232129': 'red' }}>Upload Question</Text>
+            <Text style={{ fontSize: 17, fontWeight: "bold", color: !this.state.isImageUploaded ? '#232129' : 'red' }}>Upload Question</Text>
             <TouchableHighlight
               style={styles.upload}
               onPress={() => this._pickImage()}
@@ -204,13 +213,18 @@ componentDidMount() {
               <View style={{ flexDirection: 'row', }} >
                 <Icon name="attachment" size={24} color="#232129" />
                 {<Text style={{ marginLeft: 10, marginTop: 5, fontSize: 13 }} >{this.props.source}</Text>}
-                {this.imageLoading()}
+
 
               </View>
 
             </TouchableHighlight>
+            
 
-
+          </View>
+          <View style={{flexDirection:'row'}}>
+          {this.state.images.map((e, i) => {
+              return <Image source={{ uri: e }} style={styles.image} key={i} />
+            })}
           </View>
           <TouchableHighlight style={styles.button} onPress={() => this.onPress()} underlayColor='#154120'>
             {this.button()}
@@ -281,8 +295,8 @@ var styles = {
     marginTop: -3
   },
   image: {
-    height: 100,
-    width: 100,
-    marginHorizontal: 10
+    height: 50,
+    width: 50,
+    marginHorizontal: 5
   }
 }
