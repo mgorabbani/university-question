@@ -8,6 +8,7 @@ import SearchScreen from '../screens/SearchScreen'
 import SettingScreen from '../screens/SettingScreen'
 import ImageViewScreen from '../screens/ImageViewScreen'
 import SavedScreen from '../screens/SavedQuestion';
+import DetailsScreen from '../screens/DetailsScreen'
 const RootStackNavigator = StackNavigator(
   {
     Home: {
@@ -21,6 +22,9 @@ const RootStackNavigator = StackNavigator(
     },
     View: {
       screen: ImageViewScreen
+    },
+    Details: {
+      screen: DetailsScreen
     }
   },
   {
@@ -42,6 +46,9 @@ const SavedStack = StackNavigator({
   },
   View: {
     screen: ImageViewScreen
+  },
+  Details: {
+    screen: DetailsScreen
   }
 
 }, {

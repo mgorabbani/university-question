@@ -19,7 +19,7 @@ export default Question = (props) => {
     }
     console.log(props.in,'index')
     return (
-        <TouchableWithoutFeedback onPress={() => props.navigation.navigate('View',{question:props.item})}>
+        <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Details',{question:props.item})}>
             <View style={styles.box}>
                 <View style={{ padding: 10, alignItems: 'flex-start' }} >
                     <Text style={{  }}>Subject Code: {subjectCode}</Text>
