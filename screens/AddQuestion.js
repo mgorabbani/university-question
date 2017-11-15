@@ -77,6 +77,14 @@ var Person = t.struct({
   semester: Semester,
   year: t.Number,
 });
+var formOptions = {
+   auto: 'placeholders',
+   fields: {
+    subjectCode: {
+      placeholder: 'swe221'
+    }
+  }
+};
 var options = { compressImageMaxWidth: 1000, compressImageQuality: 0.6, multiple: true,mediaType:'photo' };
 class AddQuestion extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -162,7 +170,7 @@ class AddQuestion extends Component {
       
       
     } else {
-      console.log('please upload the quesiton!')
+      console.log('please upload the quesitons!')
     }
   }
   button() {
@@ -193,13 +201,13 @@ class AddQuestion extends Component {
   }
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:'#fff'}} >
         <View style={styles.container}>
           <Text style={{ color: "#000", fontSize: 17, marginBottom: 10, fontWeight: 'bold', alignContent: 'center' }}>University ID: {this.state.university}</Text>
           <Form
             ref="form"
             type={Person}
-            options={options}
+            options={formOptions}
             onChange={(value) => this.setState({ value })}
             value={this.state.value}
           />
@@ -229,6 +237,7 @@ class AddQuestion extends Component {
           <TouchableHighlight style={styles.button} onPress={() => this.onPress()} underlayColor='#154120'>
             {this.button()}
           </TouchableHighlight>
+          <Text>* Hold and select multiple images to upload multiple quesitons at once.</Text>
         </View>
       </ScrollView>
     )
