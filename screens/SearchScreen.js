@@ -51,8 +51,9 @@ class Search extends Component {
       if (dd) {
         var ref = firebase.database().ref("/questions/" + dd);
         let keyword = that.props.navigation.state.params.keyword;
-        console.log(ref, "refff")
-        ref.orderByChild("subjectCode").equalTo(keyword.toLowerCase()).once("value").then(function (snapshot) {
+        keyword = keyword.toLowerCase();
+        keyword = keyword.replace(/[^A-Z0-9]/ig, "");
+        ref.orderByChild("subjectCode").equalTo(keyword).once("value").then(function (snapshot) {
           let newshot = []
           snapshot.forEach(function (data) {
             news = { key: data.key, data: data.val() }
@@ -86,12 +87,12 @@ class Search extends Component {
         {this.renderData()}
         <View style={{ position: 'absolute', bottom: 10, width: Dimensions.get('window').width }} >
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {/* <AdMobBanner
+            <AdMobBanner
               adSize="largeBanner"
               adUnitID="ca-app-pub-7356593470289291/2596088115"
               testDevices={['1587a345eb178ae4']}
               onAdFailedToLoad={error => console.log(error)}
-            /> */}
+            />
           </View>
         </View>
       </View>

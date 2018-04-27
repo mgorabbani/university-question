@@ -28,6 +28,7 @@ export default class HomeScreen extends React.Component {
     this.state = {
       isLoading: true,
       university: 'dhakaiu',
+      total: 0,
       data: [
         { exam: 'quiz', semester: 'summer', year: '2014', subjectCode: 'swe112', url: 'http://lorempixel.com/400/200/' },
       ]
@@ -54,6 +55,10 @@ export default class HomeScreen extends React.Component {
     await store.get('university').then((dd) => {
       if (dd) {
         var ref = firebase.database().ref("/questions/" + dd);
+        ref.once('value').then(function (snapshot) {
+
+          that.setState({ total: snapshot.numChildren() })
+        });
         ref.limitToLast(3).once('value').then(function (snapshot) {
           let newshot = []
           snapshot.forEach(function (data) {
@@ -81,7 +86,7 @@ export default class HomeScreen extends React.Component {
     { console.log(this.state.data) }
     if (this.state.isLoading) return <ActivityIndicator animating />
     else {
-      return <FlatList style={{ padding: 10 }}
+      return <FlatList style={{ paddingHorizontal: 10 }}
         horizontal
         data={this.state.data}
         keyExtractor={(item, index) => index}
@@ -92,30 +97,27 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Header navigation={this.props.navigation} />
-        <ScrollView
-          style={styles.container}>
-
+        <ScrollView style={{ flex: .6 }}>
           <View style={styles.welcomeContainer}>
             <View>
-              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', padding: 10 }}>Latest Uploads</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', paddingHorizontal: 7 }}>Latest Uploads | Total {this.state.total} questions</Text>
               {this.renderData()}
-              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', padding: 10, paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
+              <Text style={{ fontSize: 18, fontWeight: "bold", color: '#154120', paddingHorizontal: 20 }}>Please Uploads Your Question To Help Other Students</Text>
             </View>
           </View>
-{/* 
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }} >
+
+        </ScrollView>
+        <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10 }} >
           <AdMobBanner
-            adSize="largeBanner"
+            adSize="mediumRectangle"
             adUnitID="ca-app-pub-7356593470289291/2596088115"
             testDevices={['1587a345eb178ae4']}
             onAdFailedToLoad={error => console.log(error)}
           />
-        </View> */}
-        </ScrollView>
-       
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }

@@ -17,10 +17,10 @@ window.fetch = new Fetch({
   // enable this option so that the response data conversion handled automatically
   auto: true,
   // when receiving response data, the module will match its Content-Type header
-  // with strings in this array. If it contains any one of string in this array, 
+  // with strings in this array. If it contains any one of string in this array,
   // the response body will be considered as binary data and the data will be stored
   // in file system instead of in memory.
-  // By default, it only store response data to file system when Content-Type 
+  // By default, it only store response data to file system when Content-Type
   // contains string `application/octet`.
   binaryContentTypes: [
     'image/',
@@ -62,30 +62,30 @@ const uploadImage = (uri, mime = 'image/jpeg') => {
 }
 // here we are: define your domain model
 var Exam = t.enums({
-  Mid: 'Mid Term',
-  Final: 'Final'
+  MidTerm: 'Mid Term',
+  Final: 'Final',
+  InCourse: 'In Course'
 });
 var Semester = t.enums({
   Summer: 'Summer',
   Spring: 'Spring',
-  Fall: 'Fall'
+  Fall: 'Fall',
 })
 
 var Person = t.struct({
   subjectCode: t.String,              // a required string
   exam: Exam,
-  semester: Semester,
+  semester: t.maybe(Semester),
   year: t.Number,
 });
 var formOptions = {
-   auto: 'placeholders',
-   fields: {
+  fields: {
     subjectCode: {
-      placeholder: 'swe221'
+      placeholder: 'eg: mat123'
     }
   }
 };
-var options = { compressImageMaxWidth: 1000, compressImageQuality: 0.6, multiple: true,mediaType:'photo' };
+var options = { compressImageMaxWidth: 1000, compressImageQuality: 0.6, multiple: true, mediaType: 'photo' };
 class AddQuestion extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', }}>Add Question</Text>,
@@ -98,15 +98,15 @@ class AddQuestion extends Component {
     this.state = {
       value: {
         subjectCode: '',
-        year: 2017,
-        exam: 'Mid',
-        semester: 'Summer',
+        year: '',
+        exam: '',
+        semester: '',
       },
       images: [],
       uploading: false,
       university: null,
-      isUploaded:false,
-      onlineImage:[]
+      isUploaded: false,
+      onlineImage: []
     }
   }
 
@@ -136,13 +136,14 @@ class AddQuestion extends Component {
       this.setState({ uploading: true })
       const { subjectCode, exam, semester, year } = value
       subjectCode = subjectCode.toLowerCase();
+      subjectCode = subjectCode.replace(/[^A-Z0-9]/ig, "");
       console.log(subjectCode, exam, semester, year, Localurl);
-      
 
-    var ss=   this.state.images.map((data,i)=>{
-        return  uploadImage(data).then(url => {
+
+      var ss = this.state.images.map((data, i) => {
+        return uploadImage(data).then(url => {
           return url
-        
+
         }).catch((e) => {
           Alert.alert("Error", "Something is wrong! Please try again later");
           this.setState({ uploading: false })
@@ -150,25 +151,25 @@ class AddQuestion extends Component {
         })
       })
       const that = this;
-      Promise.all(ss).then(function(urls) {
+      Promise.all(ss).then(function (urls) {
         let uploadData = { subjectCode, exam, semester, year, urls }
         firebase.database().ref(`/questions/${university}`)
-        .push(uploadData)
-        .then(() => {
-          that.setState({ uploading: false })
-          Alert.alert("Success", "Question added successfully!", [
-            { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
-          ], )
-  
-        }).catch((e) => {
-          Alert.alert("Error", "Something is wrong! Please try again later", [
-            { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
-          ], )
-          that.setState({ uploading: false })
-        })
+          .push(uploadData)
+          .then(() => {
+            that.setState({ uploading: false })
+            Alert.alert("Success", "Question added successfully!", [
+              { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
+            ], )
+
+          }).catch((e) => {
+            Alert.alert("Error", "Something is wrong! Please try again later", [
+              { text: 'Back To Home', onPress: () => that.props.navigation.goBack() },
+            ], )
+            that.setState({ uploading: false })
+          })
       })
-      
-      
+
+
     } else {
       console.log('please upload the quesitons!')
     }
@@ -194,16 +195,16 @@ class AddQuestion extends Component {
         response.map((e) => {
           paths.push(e.path)
         })
-        this.setState({ images: paths,isUploaded:true })
+        this.setState({ images: paths, isUploaded: true })
         console.log('shit happend', paths)
       }
     })
   }
   render() {
     return (
-      <ScrollView style={{backgroundColor:'#fff'}} >
+      <ScrollView style={{ backgroundColor: '#fff' }} >
         <View style={styles.container}>
-          <Text style={{ color: "#000", fontSize: 17, marginBottom: 10, fontWeight: 'bold', alignContent: 'center' }}>University ID: {this.state.university}</Text>
+
           <Form
             ref="form"
             type={Person}
@@ -226,11 +227,11 @@ class AddQuestion extends Component {
               </View>
 
             </TouchableHighlight>
-            
+
 
           </View>
-          <View style={{flexDirection:'row'}}>
-          {this.state.images.map((e, i) => {
+          <View style={{ flexDirection: 'row' }}>
+            {this.state.images.map((e, i) => {
               return <Image source={{ uri: e }} style={styles.image} key={i} />
             })}
           </View>

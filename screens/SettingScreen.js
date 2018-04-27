@@ -15,7 +15,7 @@ export default class SettingsScreen extends React.Component {
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold',fontSize:16 }}>Setting</Text>,
+    headerTitle: <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>Setting</Text>,
 
     headerLeft: <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }} >
       <Icon name="list" size={24} color="#fff" style={{ paddingLeft: 10 }} />
@@ -23,13 +23,13 @@ export default class SettingsScreen extends React.Component {
   });
 
   saveVarsityName(varsity) {
-    store.update('university',varsity).then((data) => {
-     
-    }).catch(e=>{console.log(e)})
+    store.update('university', varsity).then((data) => {
+
+    }).catch(e => { console.log(e) })
 
   }
 
-  
+
   componentDidMount() {
     this.fetchData();
     store.get('university').then((data) => {
@@ -61,9 +61,9 @@ export default class SettingsScreen extends React.Component {
   render() {
 
     console.log(this.state.university)
-    return <ScrollView style={{backgroundColor:'#fff'}} >
+    return <ScrollView style={{ backgroundColor: '#fff' }} >
       <View>
-        <Text style={{fontSize:18,padding:10,color:'#154120'}} >Choose Your Universty: </Text>
+        <Text style={{ fontSize: 18, padding: 10, color: '#154120' }} >Choose Your Universty: </Text>
 
         <Picker
           selectedValue={this.state.university}
@@ -77,11 +77,11 @@ export default class SettingsScreen extends React.Component {
         </Picker>
 
 
-        <Text style={{padding:10,fontSize:16}}>
-        This app is a way to share the questions in the previous semester of your university. By using this app you are not allowed to reveal upcoming exam questions. If you leak any questions for the next exam, we will delete it. 
-        So stay with us and help others by informing about the types of questions you have in  previous exam .
+        <Text style={{ padding: 10, fontSize: 16 }}>
+          This app is a way to share the questions in the previous semester of your university. By using this app you are not allowed to reveal upcoming exam questions. If you leak any questions for the next exam, we will delete it.
+          So stay with us and help others by informing about the types of questions you have in  previous exam .
           </Text>
-          <Text style={{padding:10,fontSize:16}}>
+        <Text style={{ padding: 10, fontSize: 16 }}>
           If you can not find the name of your university in this list, please let us know. We will add it ASAP.
           </Text>
 
